@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Organizer</title>
+    <style>
+        /* Add your styles here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Meeting Organizer</h1>
+
+    <!-- Meeting Registration Form -->
+    <div>
+    <form id="meetingForm">
+        <label for="topic">Toplantı Konusu:</label>
+        <input type="text" id="topic" required>
+
+        <label for="date">Tarih:</label>
+        <input type="date" id="date" required>
+
+        <label for="startTime">Başlangıç Saati:</label>
+        <input type="time" id="startTime" required>
+
+        <label for="endTime">Bitiş Saati:</label>
+        <input type="time" id="endTime" required>
+
+        <label for="participants">Katılımcılar:</label>
+        <input type="text" id="participants" required>
+
+        <button type="button" onclick="registerMeeting()">Toplantı Ekle</button>
+    </form>
+    </div>
+
+    <!-- Meeting Update Form -->
+    <form id="meetingUpdateForm" style="display: none;">
+        <h2>Meeting Update</h2>
+        <!-- Include fields for updating a meeting -->
+
+        <button type="button" onclick="registerMeeting()">Update Meeting</button>
+    </form>
+
+    <!-- Meeting List -->
+    <h2>Meeting List</h2>
+    <table id="meetingList">
+        <thead>
+            <tr>
+                <th>Meeting Subject</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Participants</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Meeting list will be populated here dynamically -->
+        </tbody>
+    </table>
+
+    <script>
+        // Function to register a new meeting
+        function registerMeeting() {
+            const form = document.getElementById("meetingForm");
+            const formData = new FormData(form);
+
+
+            // Use the data as needed (e.g., send it to the backend)
+            fetch('http://localhost:8000/register-meeting', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(formData),
+
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Handle success response as needed
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle error as needed
+            });
+
+            // You can implement the logic to send this data to the backend using fetch or Axios
+        }
+
+        // Function to update a meeting (similar to registerMeeting but for updating)
+        function updateMeeting() {
+            // Implement the logic to update a meeting
+        }
+
+        // Function to populate the meeting list (you'll fetch this from the backend)
+        function populateMeetingList() {
+            // Dummy data for testing
+            const meetings = [
+                { subject: 'Meeting 1', date: '2023-01-01', startTime: '10:00', endTime: '12:00', participants: 'John, Jane' },
+                { subject: 'Meeting 2', date: '2023-02-01', startTime: '14:00', endTime: '16:00', participants: 'Bob, Alice' }
+            ];
+
+            const tableBody = document.getElementById('meetingList').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';
+
+            meetings.forEach(meeting => {
+                const row = tableBody.insertRow();
+                const keys = Object.keys(meeting);
+
+                keys.forEach((key, index) => {
+                    const cell = row.insertCell(index);
+                    cell.textContent = meeting[key];
+                });
+
+                // Add a button for updating the meeting
+                const updateCell = row.insertCell(keys.length);
+                const updateButton = document.createElement('button');
+                updateButton.textContent = 'Update';
+                updateButton.addEventListener('click', function() {
+                    // Implement logic to populate the update form with meeting data
+                    document.getElementById('meetingUpdateForm').style.display = 'block';
+                    document.getElementById('meetingRegistrationForm').style.display = 'none';
+                });
+                updateCell.appendChild(updateButton);
+            });
+        }
+
+        // Populate the meeting list on page load
+        populateMeetingList();
+    </script>
+
+</body>
+</html>
