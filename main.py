@@ -38,3 +38,14 @@ def submit_meeting_data(meeting_data: MeetingData):
     print(meeting_data.dict())
 
     return {"message": "Meeting data received successfully!"}
+
+@app.get("/show-meetings")
+def show_meeting_data():
+    meeting_values = MeetingData(
+        ToplantiKonusu="Project Discussion",
+        Tarih="2023-01-01",
+        BaslangicSaati="10:00",
+        BitisSaati="12:00",
+        Katilimcilar=["John Doe", "Jane Doe", "Alice", "Bob"]
+    )
+    return meeting_values.dict()
