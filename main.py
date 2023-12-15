@@ -33,8 +33,7 @@ class MeetingData(BaseModel):
 
 @app.post("/submit")
 def submit_meeting_data(meeting_data: MeetingData):
-    # Process the meeting data as needed (e.g., save it to a database)
-    # For now, just print it
+
     print("Meeting Data Received:")
     print(meeting_data.dict())
 
