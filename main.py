@@ -31,7 +31,7 @@ class MeetingData(BaseModel):
     BitisSaati: str
     Katilimcilar: list
 
-@app.post("/submit")
+@app.post("/register-meeting")
 def submit_meeting_data(meeting_data: MeetingData):
 
     print("Meeting Data Received:")
